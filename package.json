@@ -1,9 +1,11 @@
 {
   "name": "lordsmobile",
   "version": "0.1.0",
+  "homepage": "https://nerestaren.github.io/lordsmobile",
   "private": true,
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "gh-pages": "^1.1.0",
     "react": "^16.3.2",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.3.2",
@@ -12,6 +14,8 @@
     "react-scripts": "1.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
