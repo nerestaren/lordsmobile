@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import {Button, Col, ControlLabel, Form, FormControl, FormGroup, Grid, InputGroup} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import {Button, Col, ControlLabel, Form, FormControl, FormGroup, Glyphicon, Grid, InputGroup} from 'react-bootstrap';
+
 import Navbar from './Navbar';
 import Footer from './Footer';
+
+import $ from 'jquery';
+window.jQuery = window.$ = $;
+require('bootstrap');
+require('bootstrap-timepicker');
 
 export default class Home extends Component {
     constructor(props) {
@@ -90,6 +95,16 @@ export default class Home extends Component {
         } else {
             return 0;
         }
+    }
+
+    componentDidMount() {
+        $('#gathering-time').timepicker({
+            maxHours: 99,
+            minuteStep: 1,
+            secondStep: 1,
+            showSeconds: true,
+            showMeridian: false
+        });
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -270,7 +285,12 @@ export default class Home extends Component {
                                 Time
                             </Col>
                             <Col sm={10}>
-                                <FormControl type="time" step="1" value={this.state['gathering-time']} onChange={this.handleChange} />
+                                <InputGroup className="bootstrap-timepicker timepicker">
+                                    <FormControl type="text" value={this.state['gathering-time']} onChange={this.handleChange} />
+                                    <InputGroup.Addon>
+                                        <Glyphicon glyph="time" />
+                                    </InputGroup.Addon>
+                                </InputGroup>
                             </Col>
                         </FormGroup>
                     </Form>
