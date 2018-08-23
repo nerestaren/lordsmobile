@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap-theme.min.css';
 
 import Home from './Home'
 import Gathering from './Gathering'
+import Buildings from './Buildings'
 
 class App extends Component {
     render() {
@@ -14,6 +15,7 @@ class App extends Component {
             <Switch>
                 <Route exact path="/" component={Home}/>
                 <Route path="/gathering" component={Gathering}/>
+                <Route path="/buildings" component={Buildings}/>
             </Switch>
         </BrowserRouter>);
     }
