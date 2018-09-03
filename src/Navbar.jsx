@@ -15,7 +15,8 @@ export default class MyNavbar extends Component {
                 <Navbar.Collapse>
                     <Nav>
                         <NavItem componentClass={Link} eventKey={1} to="/gathering" href="/gathering" active={this.props.location === '/gathering'}>Gathering</NavItem>
-                        <NavItem componentClass={Link} eventKey={1} to="/buildings" href="/buildings" active={this.props.location === '/buildings'}>Buildings</NavItem>
+                        <NavItem componentClass={Link} eventKey={2} to="/buildings" href="/buildings" active={this.props.location === '/buildings'}>Buildings</NavItem>
+                        <NavItem componentClass={Link} eventKey={3} to="/gyms" href="/gyms" active={this.props.location === '/gyms'}>Gyms</NavItem>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

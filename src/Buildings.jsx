@@ -2,7 +2,6 @@
 
 import React, {Component} from 'react';
 import {
-    Button,
     Col,
     ControlLabel,
     Form,
@@ -10,8 +9,7 @@ import {
     FormGroup,
     Glyphicon,
     Grid,
-    InputGroup, OverlayTrigger, Panel, Popover, Row,
-    Tooltip
+    InputGroup, OverlayTrigger, Panel, Popover, Row
 } from 'react-bootstrap';
 import update from 'immutability-helper';
 
@@ -199,8 +197,8 @@ export default class Home extends Component {
         let totalRemainingGems = 0;
 
         this.data.buildings.forEach((id, i) => {
-            let levels = Object.keys(this.data.materials[id]).map(a => parseInt(a)).sort((a, b) => a - b);
-            let materialPacks = Object.keys(this.data.gems[id]).map(a => parseInt(a)).sort((a, b) => b - a);
+            let levels = Object.keys(this.data.materials[id]).map(a => parseInt(a, 10)).sort((a, b) => a - b);
+            let materialPacks = Object.keys(this.data.gems[id]).map(a => parseInt(a, 10)).sort((a, b) => b - a);
             let used = 0;
             let remaining = 0;
             let owned = this.state.materials[id];
@@ -225,7 +223,7 @@ export default class Home extends Component {
             // Calculate used and remaining gems
             let calcGems = function(materials, explanation) {
                 let gems = 0;
-                if (materials == 9 && this.data.gems[id][1] * 9 > this.data.gems[id][10]) {
+                if (materials === 9 && this.data.gems[id][1] * 9 > this.data.gems[id][10]) {
                     // Better to buy 1x 10 pack than 9x 1 packs
                     gems += this.data.gems[id][10];
                     explanation.push(<li>1&times;10</li>)
@@ -249,12 +247,12 @@ export default class Home extends Component {
             totalUsedGems += usedGems;
             totalRemainingGems += remainingGems;
 
-            if (usedGems == 0) {
+            if (usedGems === 0) {
                 usedGemsExplanation = 'No used gems';
             } else {
                 usedGemsExplanation = <ul>{usedGemsExplanation}</ul>;
             }
-            if (remainingGems == 0) {
+            if (remainingGems === 0) {
                 remainingGemsExplanation = 'No remaining gems';
             } else {
                 remainingGemsExplanation = <ul>{remainingGemsExplanation}</ul>;

@@ -186,6 +186,8 @@ export default class Home extends Component {
                     'gathering-time': event.target.value
                 });
                 break;
+            default:
+                break;
         }
     }
 
