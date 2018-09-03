@@ -23,8 +23,13 @@ export default class Home extends Component {
                         <Col md={4}>
                             <h2>Advanced buildings</h2>
                             <p>Gems needed to upgrade your Prison, Battle Hall, Altar and Treasure Trove.</p>
-                            <p><Link className="btn btn-default" to="/buildings" role="button">View details »</Link></p></Col>
-                        <Col md={4}></Col>
+                            <p><Link className="btn btn-default" to="/buildings" role="button">View details »</Link></p>
+                        </Col>
+                        <Col md={4}>
+                            <h2>Gyms</h2>
+                            <p>How many gyms should you buy?</p>
+                            <p><Link className="btn btn-default" to="/buildings" role="button">View details »</Link></p>
+                        </Col>
                     </Row>
                     <Footer />
                 </Grid>
