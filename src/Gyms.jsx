@@ -284,41 +284,56 @@ export default class Gyms extends Component {
 
     render() {
 
+        let calcMonsterExpH = function(monster) {
+            return Math.round((monster.exp + this.data.exp[0]) * (100 + (+this.state.expBoost)));
+        }.bind(this);
+
+        let calcMonsterExp = function(monster) {
+            return Math.round((monster.exp + this.data.exp[0]) * (100 + (+this.state.expBoost)) * (monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost)) / 60);
+        }.bind(this);
+
         let gyms = [];
 
         for (let nGyms = 1; nGyms <= 6; nGyms++) {
             let monsters = this.optimalGym(nGyms, this.state.heroes);
 
+            let totalExpH = monsters.reduce((acc, m) => acc + calcMonsterExpH(m), 0);
+
             let listGroupItems = [];
             monsters.forEach((monster, i) => {
-                listGroupItems.push(<ListGroupItem key={i} header={`Monster #${i + 1}`}>
-                    <Row componentClass="span">
-                        <Col componentClass="span" sm={4}>
-                            <span className="hero hero-gold">{monster.gold}</span>
-                            <span className="hero hero-purple">{monster.purple}</span>
-                            <span className="hero hero-blue">{monster.blue}</span>
-                            <span className="hero hero-green">{monster.green}</span>
-                            <span className="hero hero-grey">{monster.grey}</span>
-                        </Col>
-                        <Col componentClass="span"
-                             sm={4}>{this.convertMinutesToText(monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost))}</Col>
-                        <Col componentClass="span" sm={4} onClick={this.togglePreferExpHour}>{this.state.preferExpHour ?
-                            <span>{(monster.exp + this.data.exp[0]) * (100 + (+this.state.expBoost))} exp/h</span> :
-                            <span>{Math.round((monster.exp + this.data.exp[0]) * (100 + (+this.state.expBoost)) * (monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost)) / 60)} exp</span>}
-                        </Col>
-                    </Row>
-                </ListGroupItem>);
+                listGroupItems.push(<Panel key={i}>
+                    <Panel.Heading>
+                        <Panel.Title componentClass="h5">Monster #{i + 1}</Panel.Title>
+                    </Panel.Heading>
+                    <Panel.Body>
+                        <ListGroup>
+                            <ListGroupItem>
+                                <span className="hero hero-gold">{monster.gold}</span>
+                                <span className="hero hero-purple">{monster.purple}</span>
+                                <span className="hero hero-blue">{monster.blue}</span>
+                                <span className="hero hero-green">{monster.green}</span>
+                                <span className="hero hero-grey">{monster.grey}</span>
+                            </ListGroupItem>
+                            <ListGroupItem>
+                                {this.convertMinutesToText(monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost))}
+                            </ListGroupItem>
+                            <ListGroupItem onClick={this.togglePreferExpHour}>
+                                {this.state.preferExpHour ?
+                                    <span>{calcMonsterExpH(monster)} exp/h</span> :
+                                    <span>{calcMonsterExp(monster)} exp</span>}
+                            </ListGroupItem>
+                        </ListGroup>
+                    </Panel.Body>
+                </Panel>);
             });
 
             gyms.push(<Col md={4} key={nGyms}>
                 <Panel>
                     <Panel.Heading>
-                        <Panel.Title componentClass="h4">{nGyms} gym{nGyms > 1 ? 's' : ''}</Panel.Title>
+                        <Panel.Title componentClass="h4">{nGyms} gym{nGyms > 1 ? 's' : ''} ({totalExpH} exp/h)</Panel.Title>
                     </Panel.Heading>
                     <Panel.Body>
-                        <ListGroup>
-                            {listGroupItems}
-                        </ListGroup>
+                        {listGroupItems}
                     </Panel.Body>
                 </Panel>
             </Col>)
