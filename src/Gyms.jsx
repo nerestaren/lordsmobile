@@ -11,6 +11,7 @@ import {
     Grid,
     InputGroup, ListGroup, ListGroupItem, OverlayTrigger, Panel, Popover, Row
 } from 'react-bootstrap';
+import Inputmask from 'inputmask';
 import update from 'immutability-helper';
 
 import Navbar from './Navbar';
@@ -23,7 +24,6 @@ import PriorityQueue from 'js-priority-queue';
 
 window.jQuery = window.$ = $;
 require('bootstrap');
-require('bootstrap-timepicker');
 
 export default class Gyms extends Component {
     constructor(props) {
@@ -68,6 +68,7 @@ export default class Gyms extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.optimalGym = this.optimalGym.bind(this);
         this.togglePreferExpHour = this.togglePreferExpHour.bind(this);
+        this.selectAll = this.selectAll.bind(this);
     }
 
     convertMinutesToText(minutes) {
@@ -87,7 +88,7 @@ export default class Gyms extends Component {
     }
 
     convertTextToMinutes(text) {
-        let matches = /(\d{1,2}):(\d{2}):(\d{2})/.exec(text);
+        let matches = /(\d+):(\d{2}):(\d{2})/.exec(text);
         if (matches) {
             return (matches[1] * 3600 + matches[2] * 60 + matches[3] * 1) / 60;
         } else {
@@ -96,13 +97,7 @@ export default class Gyms extends Component {
     }
 
     componentDidMount() {
-        $('#timeBoost').timepicker({
-            maxHours: 99,
-            minuteStep: 1,
-            secondStep: 1,
-            showSeconds: true,
-            showMeridian: false
-        });
+        Inputmask().mask(document.querySelectorAll("input"));
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -127,6 +122,10 @@ export default class Gyms extends Component {
         }
     }
 
+    selectAll(event) {
+        event.target.select();
+    }
+
     togglePreferExpHour() {
         this.setState({
             preferExpHour: !this.state.preferExpHour
@@ -145,7 +144,7 @@ export default class Gyms extends Component {
             }, 0);
         }.bind(this);
 
-        let sumTime = function(heroes) {
+        let sumTime = function (heroes) {
             return this.data.colors.reduce((acc, color) => {
                 return acc + heroes[color] * this.data.time[color];
             }, 0);
@@ -177,7 +176,6 @@ export default class Gyms extends Component {
                 monster.exp += monster.total < this.data.exp.length ? this.data.exp[monster.total] : this.data.exp[this.data.exp.length - 1];
 
                 if (monster.total > heuristicHeroes || monster.time > heuristicTime) {
-                    //console.log(`[${nGyms}] -- ${monster.total} > ${heuristicHeroes} || ${monster.time} > ${heuristicTime}`);
                     continue;
                 }
 
@@ -211,7 +209,7 @@ export default class Gyms extends Component {
         };
 
         // Calculates a unique hash for a given state
-        let getHash = function(state) {
+        let getHash = function (state) {
             let hash = 0;
             let acc = 1;
 
@@ -225,7 +223,7 @@ export default class Gyms extends Component {
             return hash;
         }.bind(this);
 
-        let queue = new PriorityQueue({ comparator: compare });
+        let queue = new PriorityQueue({comparator: compare});
         let visitedNodes = {};
 
         let totalHeroes = countHeroes(allHeroes);
@@ -259,9 +257,6 @@ export default class Gyms extends Component {
         best.difHeroes = Number.MAX_VALUE;
         best.difTime = Number.MAX_VALUE;
 
-
-        //TODO canviar que les diferències hagin de ser zero a el que sigui que tenim quan NO és divisible
-
         let iterations = 0;
         while (queue.length > 0 && ++iterations < this.data.iterations) {
             let node = queue.dequeue();
@@ -270,6 +265,7 @@ export default class Gyms extends Component {
                 if (compare(best, node) > 0) {
                     // We found a better solution
                     best = node;
+                    //TODO there are cases in which no perfect solution can be found. Maybe we can know the minimum difTime and use it here.
                     if (node.difHeroes === 0 && node.difTime === 0) {
                         // Perfect solution
                         break;
@@ -295,19 +291,20 @@ export default class Gyms extends Component {
 
             let listGroupItems = [];
             monsters.forEach((monster, i) => {
-                listGroupItems.push(<ListGroupItem key={i} header={`Monster #${i+1}`}>
-                    <Row>
-                        <Col xs={4}>
+                listGroupItems.push(<ListGroupItem key={i} header={`Monster #${i + 1}`}>
+                    <Row componentClass="span">
+                        <Col componentClass="span" sm={4}>
                             <span className="hero hero-gold">{monster.gold}</span>
                             <span className="hero hero-purple">{monster.purple}</span>
                             <span className="hero hero-blue">{monster.blue}</span>
                             <span className="hero hero-green">{monster.green}</span>
                             <span className="hero hero-grey">{monster.grey}</span>
                         </Col>
-                        <Col xs={4}>{this.convertMinutesToText(monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost))}</Col>
-                        <Col xs={4} onClick={this.togglePreferExpHour}>{this.state.preferExpHour ?
-                            <span>{(monster.exp + this.data.exp[0]) * (100 + this.state.expBoost)} exp/h</span> :
-                            <span>{Math.round((monster.exp + this.data.exp[0]) * (100 + this.state.expBoost) * (monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost)) / 60)} exp</span>}
+                        <Col componentClass="span"
+                             sm={4}>{this.convertMinutesToText(monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost))}</Col>
+                        <Col componentClass="span" sm={4} onClick={this.togglePreferExpHour}>{this.state.preferExpHour ?
+                            <span>{(monster.exp + this.data.exp[0]) * (100 + (+this.state.expBoost))} exp/h</span> :
+                            <span>{Math.round((monster.exp + this.data.exp[0]) * (100 + (+this.state.expBoost)) * (monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost)) / 60)} exp</span>}
                         </Col>
                     </Row>
                 </ListGroupItem>);
@@ -341,7 +338,14 @@ export default class Gyms extends Component {
                             <Col sm={10}>
                                 <InputGroup>
                                     <InputGroup.Addon>+</InputGroup.Addon>
-                                    <FormControl type="number" min="0" step="0.1" value={this.state['expBoost']} onChange={this.handleChange} />
+                                    <FormControl type="text" value={this.state['expBoost']}
+                                                 onChange={this.handleChange} onFocus={this.selectAll}
+                                                 data-inputmask-alias="numeric"
+                                                 data-inputmask-autogroup="true"
+                                                 data-inputmask-unmaskasnumber="true"
+                                                 data-inputmask-min="0"
+                                                 data-inputmask-placeholder="0"
+                                                 data-inputmask-rightalign="false"/>
                                     <InputGroup.Addon>%</InputGroup.Addon>
                                 </InputGroup>
                             </Col>
@@ -351,10 +355,14 @@ export default class Gyms extends Component {
                                 Training Time Boost
                             </Col>
                             <Col sm={10}>
-                                <InputGroup className="bootstrap-timepicker timepicker">
-                                    <FormControl type="text" value={this.state['timeBoost']} onChange={this.handleChange} />
+                                <InputGroup>
+                                    <FormControl type="text" value={this.state['timeBoost']}
+                                                 onChange={this.handleChange}
+                                                 data-inputmask-alias="datetime"
+                                                 data-inputmask-inputformat="HHH:MM:ss"
+                                                 data-inputmask-placeholder="0"/>
                                     <InputGroup.Addon>
-                                        <Glyphicon glyph="time" />
+                                        <Glyphicon glyph="time"/>
                                     </InputGroup.Addon>
                                 </InputGroup>
                             </Col>
@@ -368,45 +376,58 @@ export default class Gyms extends Component {
                                     <Col md={2}>
                                         <InputGroup>
                                             <InputGroup.Addon className="hero-gold">Gold</InputGroup.Addon>
-                                            <FormControl id="heroes-gold" type="number" min="0" value={this.state.heroes.gold} onChange={this.handleChange} />
+                                            <FormControl id="heroes-gold" type="number" min="0"
+                                                         value={this.state.heroes.gold}
+                                                         onChange={this.handleChange} onFocus={this.selectAll}/>
                                         </InputGroup>
                                     </Col>
                                     <Col md={2}>
                                         <InputGroup>
                                             <InputGroup.Addon className="hero-purple">Purple</InputGroup.Addon>
-                                            <FormControl id="heroes-purple" type="number" min="0" value={this.state.heroes.purple} onChange={this.handleChange} />
+                                            <FormControl id="heroes-purple" type="number" min="0"
+                                                         value={this.state.heroes.purple}
+                                                         onChange={this.handleChange} onFocus={this.selectAll}/>
                                         </InputGroup>
                                     </Col>
                                     <Col md={2}>
                                         <InputGroup>
                                             <InputGroup.Addon className="hero-blue">Blue</InputGroup.Addon>
-                                            <FormControl id="heroes-blue" type="number" min="0" value={this.state.heroes.blue} onChange={this.handleChange} />
+                                            <FormControl id="heroes-blue" type="number" min="0"
+                                                         value={this.state.heroes.blue}
+                                                         onChange={this.handleChange} onFocus={this.selectAll}/>
                                         </InputGroup>
                                     </Col>
                                     <Col md={2}>
                                         <InputGroup>
                                             <InputGroup.Addon className="hero-green">Green</InputGroup.Addon>
-                                            <FormControl id="heroes-green" type="number" min="0" value={this.state.heroes.green} onChange={this.handleChange} />
+                                            <FormControl id="heroes-green" type="number" min="0"
+                                                         value={this.state.heroes.green}
+                                                         onChange={this.handleChange} onFocus={this.selectAll}/>
                                         </InputGroup>
                                     </Col>
                                     <Col md={2}>
                                         <InputGroup>
                                             <InputGroup.Addon className="hero-grey">Grey</InputGroup.Addon>
-                                            <FormControl id="heroes-grey" type="number" min="0" value={this.state.heroes.grey} onChange={this.handleChange} />
+                                            <FormControl id="heroes-grey" type="number" min="0"
+                                                         value={this.state.heroes.grey}
+                                                         onChange={this.handleChange} onFocus={this.selectAll}/>
                                         </InputGroup>
                                     </Col>
                                     <Col md={2}>
                                         <InputGroup>
                                             <InputGroup.Addon>Total</InputGroup.Addon>
-                                            <FormControl disabled type="text" value={this.state.heroes.grey + this.state.heroes.green + this.state.heroes.blue + this.state.heroes.purple + this.state.heroes.gold} />
+                                            <FormControl disabled type="text"
+                                                         value={this.state.heroes.grey + this.state.heroes.green + this.state.heroes.blue + this.state.heroes.purple + this.state.heroes.gold}/>
                                         </InputGroup>
                                     </Col>
                                 </Row>
                             </Col>
                         </FormGroup>
-                        <h3>Example builds <OverlayTrigger placement="top" trigger="click" rootClose overlay={<Popover id="calculation">
-                            This calculation may be imprecise. Finding a perfect solution would take forever.
-                        </Popover>}>
+                        <h3>Example builds <OverlayTrigger placement="top" trigger="click" rootClose
+                                                           overlay={<Popover id="calculation">
+                                                               This calculation may be imprecise. Finding a perfect
+                                                               solution would take forever.
+                                                           </Popover>}>
                             <Glyphicon style={{cursor: 'pointer'}} glyph="info-sign"/>
                         </OverlayTrigger></h3>
                         <Row>

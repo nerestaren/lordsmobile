@@ -171,6 +171,7 @@ export default class Buildings extends Component {
         }
         this.state = {...defaults};
         this.handleChange = this.handleChange.bind(this);
+        this.selectAll = this.selectAll.bind(this);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -189,6 +190,10 @@ export default class Buildings extends Component {
                 }
             }
         }));
+    }
+
+    selectAll(event) {
+        event.target.select();
     }
 
     render() {
@@ -230,7 +235,6 @@ export default class Buildings extends Component {
                 } else {
                     materialPacks.forEach(amount => {
                         if (amount <= materials) {
-                            console.log(`${amount} <= ${materials}`);
                             let quantity = Math.floor(materials / amount);
                             gems += this.data.gems[id][amount] * quantity;
                             explanation.push(<li key={amount}>{quantity}&times;{amount}</li>);
@@ -282,7 +286,7 @@ export default class Buildings extends Component {
                     <Col componentClass={ControlLabel} sm={2}>Owned {this.data.resourceNames[id]}</Col>
                     <Col sm={10}>
                         <FormControl id={`${id}-materials`} type="number" value={this.state.materials[id]}
-                                     min="0" onChange={this.handleChange}/>
+                                     min="0" onChange={this.handleChange} onFocus={this.selectAll}/>
                     </Col>
                 </FormGroup>
                 <FormGroup>

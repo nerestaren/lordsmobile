@@ -1,10 +1,13 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {Button, Col, ControlLabel, Form, FormControl, FormGroup, Glyphicon, Grid, InputGroup} from 'react-bootstrap';
 
 import Navbar from './Navbar';
 import Footer from './Footer';
 
+import Inputmask from 'inputmask';
+
 import $ from 'jquery';
+
 window.jQuery = window.$ = $;
 require('bootstrap');
 require('bootstrap-timepicker');
@@ -36,7 +39,6 @@ export default class Gathering extends Component {
             }
         };
         let defaults = JSON.parse(localStorage.getItem('gathering'));
-        console.log('defaults', defaults);
         if (defaults === null) {
             defaults = {
                 'gathering-speed-bonus': 0,
@@ -46,8 +48,9 @@ export default class Gathering extends Component {
             defaults['gathering-capacity'] = defaults['gathering-tile-max-capacity'] = this.computeGatheringMaxCapacity(defaults['gathering-tile-type'], defaults['gathering-tile-level']);
             defaults['gathering-time'] = this.computeGatheringTime(defaults['gathering-capacity'], defaults['gathering-speed-bonus'], defaults['gathering-tile-type'], defaults['gathering-tile-level']);
         }
-        this.state = { ...defaults };
+        this.state = {...defaults};
         this.handleChange = this.handleChange.bind(this);
+        this.selectAll = this.selectAll.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.getCapacityValidationState = this.getCapacityValidationState.bind(this);
     }
@@ -89,7 +92,7 @@ export default class Gathering extends Component {
     }
 
     convertTextToSeconds(text) {
-        let matches = /(\d{2}):(\d{2}):(\d{2})/.exec(text);
+        let matches = /(\d+):(\d{2}):(\d{2})/.exec(text);
         if (matches) {
             return matches[1] * 3600 + matches[2] * 60 + matches[3] * 1;
         } else {
@@ -98,18 +101,11 @@ export default class Gathering extends Component {
     }
 
     componentDidMount() {
-        $('#gathering-time').timepicker({
-            maxHours: 99,
-            minuteStep: 1,
-            secondStep: 1,
-            showSeconds: true,
-            showMeridian: false
-        });
+        Inputmask().mask(document.querySelectorAll("input"));
     }
 
     componentWillUpdate(nextProps, nextState) {
         localStorage.setItem('gathering', JSON.stringify(nextState));
-        console.log('saving state', nextState, localStorage.getItem('gathering'));
     }
 
     handleChange(event) {
@@ -191,6 +187,10 @@ export default class Gathering extends Component {
         }
     }
 
+    selectAll(event) {
+        event.target.select();
+    }
+
     handleClick(event) {
         switch (event.target.id) {
             case 'gathering-set-max-capacity':
@@ -235,7 +235,14 @@ export default class Gathering extends Component {
                             <Col sm={10}>
                                 <InputGroup>
                                     <InputGroup.Addon>+</InputGroup.Addon>
-                                    <FormControl type="number" min="0" step="0.01" value={this.state['gathering-speed-bonus']} onChange={this.handleChange} />
+                                    <FormControl type="text" value={this.state['gathering-speed-bonus']}
+                                                 onChange={this.handleChange} onFocus={this.selectAll}
+                                                 data-inputmask-alias="numeric"
+                                                 data-inputmask-autogroup="true"
+                                                 data-inputmask-unmaskasnumber="true"
+                                                 data-inputmask-min="0"
+                                                 data-inputmask-placeholder="0"
+                                                 data-inputmask-rightalign="false"/>
                                     <InputGroup.Addon>%</InputGroup.Addon>
                                 </InputGroup>
                             </Col>
@@ -245,7 +252,8 @@ export default class Gathering extends Component {
                                 Tile type
                             </Col>
                             <Col sm={10}>
-                                <FormControl componentClass="select" value={this.state['gathering-tile-type']} onChange={this.handleChange}>
+                                <FormControl componentClass="select" value={this.state['gathering-tile-type']}
+                                             onChange={this.handleChange}>
                                     <option value="field">Field</option>
                                     <option value="rocks">Rocks</option>
                                     <option value="woods">Woods</option>
@@ -259,7 +267,8 @@ export default class Gathering extends Component {
                                 Tile level
                             </Col>
                             <Col sm={10}>
-                                <FormControl componentClass="select" value={this.state['gathering-tile-level']} onChange={this.handleChange}>
+                                <FormControl componentClass="select" value={this.state['gathering-tile-level']}
+                                             onChange={this.handleChange}>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -274,7 +283,15 @@ export default class Gathering extends Component {
                             </Col>
                             <Col sm={10}>
                                 <InputGroup>
-                                    <FormControl type="number" min="0" max={this.state['gathering-tile-max-capacity']} lang="ca-ES" value={this.state['gathering-capacity']} onChange={this.handleChange} />
+                                    <FormControl type="text" value={this.state['gathering-capacity']}
+                                                 onChange={this.handleChange} onFocus={this.selectAll}
+                                                 data-inputmask-alias="integer"
+                                                 data-inputmask-autogroup="true"
+                                                 data-inputmask-unmaskasnumber="true"
+                                                 data-inputmask-min="0"
+                                                 data-inputmask-max={this.state['gathering-tile-max-capacity']}
+                                                 data-inputmask-placeholder="0"
+                                                 data-inputmask-rightalign="false"/>
                                     <InputGroup.Addon> / {this.state['gathering-tile-max-capacity']}</InputGroup.Addon>
                                     <InputGroup.Button>
                                         <Button id="gathering-set-max-capacity" onClick={this.handleClick}>All</Button>
@@ -287,16 +304,20 @@ export default class Gathering extends Component {
                                 Time
                             </Col>
                             <Col sm={10}>
-                                <InputGroup className="bootstrap-timepicker timepicker">
-                                    <FormControl type="text" value={this.state['gathering-time']} onChange={this.handleChange} />
+                                <InputGroup>
+                                    <FormControl type="text" value={this.state['gathering-time']}
+                                                 onChange={this.handleChange}
+                                                 data-inputmask-alias="datetime"
+                                                 data-inputmask-inputformat="HHH:MM:ss"
+                                                 data-inputmask-placeholder="0"/>
                                     <InputGroup.Addon>
-                                        <Glyphicon glyph="time" />
+                                        <Glyphicon glyph="time"/>
                                     </InputGroup.Addon>
                                 </InputGroup>
                             </Col>
                         </FormGroup>
                     </Form>
-                    <Footer />
+                    <Footer/>
                 </Grid>
             </div>
         );

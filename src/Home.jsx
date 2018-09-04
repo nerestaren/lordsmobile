@@ -27,7 +27,7 @@ export default class Home extends Component {
                         </Col>
                         <Col md={4}>
                             <h2>Gyms</h2>
-                            <p>How many gyms should you buy?</p>
+                            <p>How many gyms should you build?</p>
                             <p><Link className="btn btn-default" to="/gyms" role="button">View details »</Link></p>
                         </Col>
                     </Row>
