@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react';
 import {
+    Button,
     Col,
     ControlLabel,
     Form,
@@ -60,14 +61,12 @@ export default class Gyms extends Component {
                     blue: 0,
                     purple: 0,
                     gold: 0
-                }],
-                preferExpHour: true
+                }]
             };
         }
         this.state = {...defaults};
         this.handleChange = this.handleChange.bind(this);
         this.optimalGym = this.optimalGym.bind(this);
-        this.togglePreferExpHour = this.togglePreferExpHour.bind(this);
         this.selectAll = this.selectAll.bind(this);
     }
 
@@ -125,13 +124,7 @@ export default class Gyms extends Component {
     selectAll(event) {
         event.target.select();
     }
-
-    togglePreferExpHour() {
-        this.setState({
-            preferExpHour: !this.state.preferExpHour
-        });
-    }
-
+    
     optimalGym(nGyms, allHeroes) {
 
         let clone = data => {
@@ -303,30 +296,21 @@ export default class Gyms extends Component {
 
             let listGroupItems = [];
             monsters.forEach((monster, i) => {
-                listGroupItems.push(<Panel key={i}>
-                    <Panel.Heading>
-                        <Panel.Title componentClass="h5">Monster #{i + 1}</Panel.Title>
-                    </Panel.Heading>
-                    <Panel.Body>
-                        <ListGroup>
-                            <ListGroupItem>
-                                <span className="hero hero-gold">{monster.gold}</span>
-                                <span className="hero hero-purple">{monster.purple}</span>
-                                <span className="hero hero-blue">{monster.blue}</span>
-                                <span className="hero hero-green">{monster.green}</span>
-                                <span className="hero hero-grey">{monster.grey}</span>
-                            </ListGroupItem>
-                            <ListGroupItem>
-                                {this.convertMinutesToText(monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost))}
-                            </ListGroupItem>
-                            <ListGroupItem onClick={this.togglePreferExpHour}>
-                                {this.state.preferExpHour ?
-                                    <span>{calcMonsterExpH(monster)} exp/h</span> :
-                                    <span>{calcMonsterExp(monster)} exp</span>}
-                            </ListGroupItem>
-                        </ListGroup>
-                    </Panel.Body>
-                </Panel>);
+                listGroupItems.push(<ListGroup>
+                    <ListGroupItem>
+                        <span className="hero hero-gold">{monster.gold}</span>
+                        <span className="hero hero-purple">{monster.purple}</span>
+                        <span className="hero hero-blue">{monster.blue}</span>
+                        <span className="hero hero-green">{monster.green}</span>
+                        <span className="hero hero-grey">{monster.grey}</span>
+                    </ListGroupItem>
+                    <ListGroupItem>
+                        {this.convertMinutesToText(monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost))}
+                    </ListGroupItem>
+                    <ListGroupItem>
+                            <span>{calcMonsterExpH(monster)} exp/h</span>, <span>{calcMonsterExp(monster)} exp</span>
+                    </ListGroupItem>
+                </ListGroup>);
             });
 
             gyms.push(<Col md={4} key={nGyms}>
