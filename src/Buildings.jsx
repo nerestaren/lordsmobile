@@ -22,7 +22,7 @@ window.jQuery = window.$ = $;
 require('bootstrap');
 require('bootstrap-timepicker');
 
-export default class Home extends Component {
+export default class Buildings extends Component {
     constructor(props) {
         super(props);
         this.data = {
