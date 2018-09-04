@@ -15,6 +15,7 @@ import update from 'immutability-helper';
 
 import Navbar from './Navbar';
 import Footer from './Footer';
+import './App.css';
 
 import $ from 'jquery';
 
@@ -59,12 +60,14 @@ export default class Home extends Component {
                     blue: 0,
                     purple: 0,
                     gold: 0
-                }]
+                }],
+                preferExpHour: true
             };
         }
         this.state = {...defaults};
         this.handleChange = this.handleChange.bind(this);
         this.optimalGym = this.optimalGym.bind(this);
+        this.togglePreferExpHour = this.togglePreferExpHour.bind(this);
     }
 
     convertMinutesToText(minutes) {
@@ -124,6 +127,12 @@ export default class Home extends Component {
         }
     }
 
+    togglePreferExpHour() {
+        this.setState({
+            preferExpHour: !this.state.preferExpHour
+        });
+    }
+
     optimalGym(nGyms, allHeroes) {
 
         let clone = data => {
@@ -168,10 +177,15 @@ export default class Home extends Component {
                 monster.exp += monster.total < this.data.exp.length ? this.data.exp[monster.total] : this.data.exp[this.data.exp.length - 1];
 
                 if (monster.total > heuristicHeroes || monster.time > heuristicTime) {
-                    continue;
-                } else if (visitedNodes[getHash(newNode)]) {
+                    //console.log(`[${nGyms}] -- ${monster.total} > ${heuristicHeroes} || ${monster.time} > ${heuristicTime}`);
                     continue;
                 }
+
+                let hash = getHash(newNode);
+                if (visitedNodes[hash]) {
+                    continue;
+                }
+                visitedNodes[hash] = true;
 
                 let minHeroes = Number.MAX_VALUE;
                 let maxHeroes = Number.MIN_VALUE;
@@ -216,7 +230,9 @@ export default class Home extends Component {
 
         let totalHeroes = countHeroes(allHeroes);
         let heuristicHeroes = Math.ceil(totalHeroes / nGyms);
-        let heuristicTime = Math.ceil(sumTime(allHeroes) / nGyms);
+        let heuristicTime = Math.ceil(sumTime(allHeroes) / nGyms) + 60; //TODO this is a hack.
+        // We need to keep in mind that we may divide the heroes in a way that the difference between monsters is not small
+        // Yes, it'll be of a single hero at most, but how much is that hero worth? No idea
 
         let s0 = {
             heroes: clone(allHeroes),
@@ -249,7 +265,6 @@ export default class Home extends Component {
         let iterations = 0;
         while (queue.length > 0 && ++iterations < this.data.iterations) {
             let node = queue.dequeue();
-            visitedNodes[getHash(node)] = true;
             if (countHeroes(node.heroes) === 0) {
                 // It's a leaf: a possible solution
                 if (compare(best, node) > 0) {
@@ -280,11 +295,21 @@ export default class Home extends Component {
 
             let listGroupItems = [];
             monsters.forEach((monster, i) => {
-                listGroupItems.push(<ListGroupItem key={i}>
-                    Monster #{i+1}
-                    Heroes: {monster.gold}/{monster.purple}/{monster.blue}/{monster.green}/{monster.grey}
-                    Time: {this.convertMinutesToText(monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost))}
-                    Exp/h: {(monster.exp + this.data.exp[0]) * (100 + this.state.expBoost)}
+                listGroupItems.push(<ListGroupItem key={i} header={`Monster #${i+1}`}>
+                    <Row>
+                        <Col xs={4}>
+                            <span className="hero hero-gold">{monster.gold}</span>
+                            <span className="hero hero-purple">{monster.purple}</span>
+                            <span className="hero hero-blue">{monster.blue}</span>
+                            <span className="hero hero-green">{monster.green}</span>
+                            <span className="hero hero-grey">{monster.grey}</span>
+                        </Col>
+                        <Col xs={4}>{this.convertMinutesToText(monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost))}</Col>
+                        <Col xs={4} onClick={this.togglePreferExpHour}>{this.state.preferExpHour ?
+                            <span>{(monster.exp + this.data.exp[0]) * (100 + this.state.expBoost)} exp/h</span> :
+                            <span>{Math.round((monster.exp + this.data.exp[0]) * (100 + this.state.expBoost) * (monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost)) / 60)} exp</span>}
+                        </Col>
+                    </Row>
                 </ListGroupItem>);
             });
 
@@ -342,31 +367,31 @@ export default class Home extends Component {
                                 <Row>
                                     <Col md={2}>
                                         <InputGroup>
-                                            <InputGroup.Addon style={{backgroundColor: 'gold'}}>Gold</InputGroup.Addon>
+                                            <InputGroup.Addon className="hero-gold">Gold</InputGroup.Addon>
                                             <FormControl id="heroes-gold" type="number" min="0" value={this.state.heroes.gold} onChange={this.handleChange} />
                                         </InputGroup>
                                     </Col>
                                     <Col md={2}>
                                         <InputGroup>
-                                            <InputGroup.Addon style={{backgroundColor: 'mediumpurple'}}>Purple</InputGroup.Addon>
+                                            <InputGroup.Addon className="hero-purple">Purple</InputGroup.Addon>
                                             <FormControl id="heroes-purple" type="number" min="0" value={this.state.heroes.purple} onChange={this.handleChange} />
                                         </InputGroup>
                                     </Col>
                                     <Col md={2}>
                                         <InputGroup>
-                                            <InputGroup.Addon style={{backgroundColor: 'lightblue'}}>Blue</InputGroup.Addon>
+                                            <InputGroup.Addon className="hero-blue">Blue</InputGroup.Addon>
                                             <FormControl id="heroes-blue" type="number" min="0" value={this.state.heroes.blue} onChange={this.handleChange} />
                                         </InputGroup>
                                     </Col>
                                     <Col md={2}>
                                         <InputGroup>
-                                            <InputGroup.Addon style={{backgroundColor: 'lightgreen'}}>Green</InputGroup.Addon>
+                                            <InputGroup.Addon className="hero-green">Green</InputGroup.Addon>
                                             <FormControl id="heroes-green" type="number" min="0" value={this.state.heroes.green} onChange={this.handleChange} />
                                         </InputGroup>
                                     </Col>
                                     <Col md={2}>
                                         <InputGroup>
-                                            <InputGroup.Addon style={{backgroundColor: 'lightgrey'}}>Grey</InputGroup.Addon>
+                                            <InputGroup.Addon className="hero-grey">Grey</InputGroup.Addon>
                                             <FormControl id="heroes-grey" type="number" min="0" value={this.state.heroes.grey} onChange={this.handleChange} />
                                         </InputGroup>
                                     </Col>
