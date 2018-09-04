@@ -3,16 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2ddabb65-30e3-42c4-a2aa-2f5e2bc6f5a7" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Buildings.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Buildings.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Gathering.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Gathering.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Gyms.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Gyms.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Home.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -63,7 +54,7 @@
       <file leaf-file-name="Gathering.jsx" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Gathering.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
+            <state relative-caret-position="85">
               <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
@@ -75,7 +66,7 @@
       <file leaf-file-name="Buildings.jsx" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Buildings.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
+            <state relative-caret-position="136">
               <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
               <folding>
                 <element signature="e#51#90#0" expanded="true" />
@@ -87,11 +78,10 @@
       <file leaf-file-name="Gyms.jsx" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Gyms.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="25" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
+            <state relative-caret-position="408">
+              <caret line="48" column="54" selection-start-line="48" selection-start-column="54" selection-end-line="48" selection-end-column="54" />
               <folding>
                 <element signature="e#51#90#0" expanded="true" />
-                <element signature="n#style#0;n#Glyphicon#0;n#OverlayTrigger#0;n#h3#1;n#Form#0;n#Grid#0;n#Navbar#0;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -127,7 +117,7 @@
       <file leaf-file-name="Home.jsx" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Home.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="433">
+            <state relative-caret-position="442">
               <caret line="30" column="74" selection-start-line="30" selection-start-column="74" selection-end-line="30" selection-end-column="74" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
@@ -140,7 +130,7 @@
         <entry file="file://$PROJECT_DIR$/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="51">
-              <caret line="3" column="19" lean-forward="true" selection-start-line="3" selection-end-line="4" />
+              <caret line="3" column="19" selection-start-line="3" selection-end-line="4" />
             </state>
           </provider>
         </entry>
@@ -227,7 +217,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -244,8 +234,8 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="AndroidView" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -365,12 +355,13 @@
       <workItem from="1535575894487" duration="3524000" />
       <workItem from="1535719162145" duration="815000" />
       <workItem from="1535844863825" duration="5083000" />
-      <workItem from="1535995668210" duration="16013000" />
+      <workItem from="1535995668210" duration="16109000" />
+      <workItem from="1536021527129" duration="25000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="90110000" />
+    <option name="totallyTimeSpent" value="90231000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -387,10 +378,10 @@
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32897604" />
       <window_info id="npm" order="3" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.2167756" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.2167756" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19936034" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20149253" />
       <window_info anchor="right" id="Database" order="6" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -467,7 +458,6 @@
           <caret line="164" column="28" selection-start-line="164" selection-start-column="28" selection-end-line="164" selection-end-column="28" />
           <folding>
             <element signature="e#51#90#0" expanded="true" />
-            <element signature="n#style#0;n#Glyphicon#0;n#OverlayTrigger#0;n#h3#1;n#Form#0;n#Grid#0;n#Navbar#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -533,7 +523,6 @@
           <caret line="177" selection-start-line="177" selection-end-line="177" />
           <folding>
             <element signature="e#51#90#0" expanded="true" />
-            <element signature="n#style#0;n#Glyphicon#0;n#OverlayTrigger#0;n#h3#1;n#Form#0;n#Grid#0;n#Navbar#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -592,7 +581,6 @@
           <caret line="146" column="63" selection-start-line="146" selection-start-column="63" selection-end-line="146" selection-end-column="63" />
           <folding>
             <element signature="e#51#90#0" expanded="true" />
-            <element signature="n#style#0;n#Glyphicon#0;n#OverlayTrigger#0;n#h3#1;n#Form#0;n#Grid#0;n#Navbar#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -719,16 +707,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="7" lean-forward="true" selection-start-column="7" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
-          <caret line="3" column="19" lean-forward="true" selection-start-line="3" selection-end-line="4" />
+          <caret line="3" column="19" selection-start-line="3" selection-end-line="4" />
         </state>
       </provider>
     </entry>
@@ -748,7 +733,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Home.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
+        <state relative-caret-position="442">
           <caret line="30" column="74" selection-start-line="30" selection-start-column="74" selection-end-line="30" selection-end-column="74" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
@@ -758,7 +743,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Buildings.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
+        <state relative-caret-position="136">
           <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
           <folding>
             <element signature="e#51#90#0" expanded="true" />
@@ -768,7 +753,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Gathering.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
+        <state relative-caret-position="85">
           <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
@@ -778,11 +763,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Gyms.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="25" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
+        <state relative-caret-position="408">
+          <caret line="48" column="54" selection-start-line="48" selection-start-column="54" selection-end-line="48" selection-end-column="54" />
           <folding>
             <element signature="e#51#90#0" expanded="true" />
-            <element signature="n#style#0;n#Glyphicon#0;n#OverlayTrigger#0;n#h3#1;n#Form#0;n#Grid#0;n#Navbar#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

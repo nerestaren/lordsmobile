@@ -46,7 +46,7 @@ export default class Gyms extends Component {
         if (defaults === null) {
             defaults = {
                 expBoost: 0,
-                timeBoost: 0,
+                timeBoost: this.convertMinutesToText(0),
                 heroes: {
                     grey: 0,
                     green: 0,
