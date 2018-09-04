@@ -214,10 +214,12 @@ export default class Gyms extends Component {
             let acc = 1;
 
             this.data.colors.forEach(c => {
-                state.monsters.forEach(m => {
-                    hash += m[c] * acc;
-                    acc *= this.state.heroes[c];
-                });
+                if (this.state.heroes[c] > 0) {
+                    state.monsters.forEach(m => {
+                        hash += m[c] * acc;
+                        acc *= this.state.heroes[c];
+                    });
+                }
             });
 
             return hash;
