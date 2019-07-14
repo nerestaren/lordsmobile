@@ -40,31 +40,36 @@ export default class Gyms extends Component {
             },
             // empty: 10; 1st: 10; 2nd: 7; 3rd: 6; 4th-5th: 5; 6th-9th: 4; 10th-20th: 3; 21st+: 2
             exp: [10, 10, 7, 6, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2],
+            gymExpBoost: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 9, 10, 11, 12, 13, 14, 15, 16, 20],
             colors: ['gold', 'purple', 'blue', 'green', 'grey'],
             iterations: 1000
         };
-        let defaults = JSON.parse(localStorage.getItem('gyms'));
-        if (defaults === null) {
-            defaults = {
-                expBoost: 0,
-                timeBoost: this.convertMinutesToText(0),
-                heroes: {
-                    grey: 0,
-                    green: 0,
-                    blue: 0,
-                    purple: 0,
-                    gold: 0
-                },
-                monsters: [{
-                    grey: 0,
-                    green: 0,
-                    blue: 0,
-                    purple: 0,
-                    gold: 0
-                }]
-            };
+        let storage = JSON.parse(localStorage.getItem('gyms'));
+        let defaults = {
+            expBoost: 0,
+            timeBoost: this.convertMinutesToText(0),
+            heroes: {
+                grey: 0,
+                green: 0,
+                blue: 0,
+                purple: 0,
+                gold: 0
+            },
+            monsters: [{
+                grey: 0,
+                green: 0,
+                blue: 0,
+                purple: 0,
+                gold: 0
+            }],
+            gymLevels: [0, 0, 0, 0, 0, 0]
+        };
+        if (storage === null) {
+            storage = defaults;
+        } else {
+            storage = Object.assign({}, defaults, storage);
         }
-        this.state = {...defaults};
+        this.state = {...storage};
         this.handleChange = this.handleChange.bind(this);
         this.optimalGym = this.optimalGym.bind(this);
         this.selectAll = this.selectAll.bind(this);
@@ -279,12 +284,23 @@ export default class Gyms extends Component {
 
     render() {
 
-        let calcMonsterExpH = function(monster) {
-            return Math.round((monster.exp + this.data.exp[0]) * (100 + (+this.state.expBoost)));
+        let calcMonsterExpH = function(monster, currentExpBonus) {
+            return Math.round((monster.exp + this.data.exp[0]) * (100 + (currentExpBonus)));
         }.bind(this);
 
-        let calcMonsterExp = function(monster) {
-            return Math.round((monster.exp + this.data.exp[0]) * (100 + (+this.state.expBoost)) * (monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost)) / 60);
+        let calcMonsterExp = function(monster, currentExpBonus) {
+            return Math.round((monster.exp + this.data.exp[0]) * (100 + (currentExpBonus)) * (monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost)) / 60);
+        }.bind(this);
+
+        let currentExpBoost = function(n) {
+            return (+this.state.expBoost) - this.state.gymLevels.reduce((acc, cur, idx) => {
+                if (idx >= n) {
+                    // We lose the boost for gyms with idx greater than or equal to number of gyms
+                    return acc + this.data.gymExpBoost[cur];
+                } else {
+                    return acc;
+                }
+            }, 0);
         }.bind(this);
 
         let gyms = [];
@@ -292,7 +308,8 @@ export default class Gyms extends Component {
         for (let nGyms = 1; nGyms <= 6; nGyms++) {
             let monsters = this.optimalGym(nGyms, this.state.heroes);
 
-            let totalExpH = monsters.reduce((acc, m) => acc + calcMonsterExpH(m), 0);
+            let currentExpBonus = currentExpBoost(nGyms);
+            let totalExpH = monsters.reduce((acc, m) => acc + calcMonsterExpH(m, currentExpBonus), 0);
 
             let listGroupItems = [];
             monsters.forEach((monster, i) => {
@@ -308,7 +325,7 @@ export default class Gyms extends Component {
                         {this.convertMinutesToText(monster.time + this.data.time.empty + this.convertTextToMinutes(this.state.timeBoost))}
                     </ListGroupItem>
                     <ListGroupItem>
-                            <span>{calcMonsterExpH(monster)} exp/h</span>, <span>{calcMonsterExp(monster)} exp</span>
+                            <span>{calcMonsterExpH(monster, currentExpBonus)} exp/h</span>, <span>{calcMonsterExp(monster, currentExpBonus)} exp</span>
                     </ListGroupItem>
                 </ListGroup>);
             });
@@ -323,6 +340,19 @@ export default class Gyms extends Component {
                     </Panel.Body>
                 </Panel>
             </Col>)
+        }
+
+        let gymLevels = [];
+
+        for (let i = 0; i < 6; i++) {
+            gymLevels.push(<Col md={2}>
+                <InputGroup>
+                    <InputGroup.Addon>{`#${i+1}`}</InputGroup.Addon>
+                    <FormControl id={`gymLevels-${i}`} type="number" min="0" max="25"
+                                 value={this.state.gymLevels[i]}
+                                 onChange={this.handleChange} onFocus={this.selectAll}/>
+                </InputGroup>
+            </Col>);
         }
 
         return (
@@ -366,6 +396,16 @@ export default class Gyms extends Component {
                                         <Glyphicon glyph="time"/>
                                     </InputGroup.Addon>
                                 </InputGroup>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup>
+                            <Col componentClass={ControlLabel} sm={2}>
+                                Gym levels
+                            </Col>
+                            <Col sm={10}>
+                                <Row>
+                                    {gymLevels}
+                                </Row>
                             </Col>
                         </FormGroup>
                         <FormGroup>
