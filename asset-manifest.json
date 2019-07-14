@@ -1,11 +1,18 @@
 {
-  "main.css": "static/css/main.636474fb.css",
-  "main.css.map": "static/css/main.636474fb.css.map",
-  "main.js": "static/js/main.0c1f0320.js",
-  "main.js.map": "static/js/main.0c1f0320.js.map",
-  "static/media/glyphicons-halflings-regular.eot": "static/media/glyphicons-halflings-regular.f4769f9b.eot",
-  "static/media/glyphicons-halflings-regular.svg": "static/media/glyphicons-halflings-regular.89889688.svg",
-  "static/media/glyphicons-halflings-regular.ttf": "static/media/glyphicons-halflings-regular.e18bbf61.ttf",
-  "static/media/glyphicons-halflings-regular.woff": "static/media/glyphicons-halflings-regular.fa277232.woff",
-  "static/media/glyphicons-halflings-regular.woff2": "static/media/glyphicons-halflings-regular.448c34a5.woff2"
+  "files": {
+    "main.css": "/lordsmobile/static/css/main.82cb4437.chunk.css",
+    "main.js": "/lordsmobile/static/js/main.25680ac7.chunk.js",
+    "main.js.map": "/lordsmobile/static/js/main.25680ac7.chunk.js.map",
+    "runtime~main.js": "/lordsmobile/static/js/runtime~main.be4368d0.js",
+    "runtime~main.js.map": "/lordsmobile/static/js/runtime~main.be4368d0.js.map",
+    "static/css/2.885429ea.chunk.css": "/lordsmobile/static/css/2.885429ea.chunk.css",
+    "static/js/2.eb9bbfea.chunk.js": "/lordsmobile/static/js/2.eb9bbfea.chunk.js",
+    "static/js/2.eb9bbfea.chunk.js.map": "/lordsmobile/static/js/2.eb9bbfea.chunk.js.map",
+    "index.html": "/lordsmobile/index.html",
+    "precache-manifest.614e1bfb5a601307745b36237dcbe836.js": "/lordsmobile/precache-manifest.614e1bfb5a601307745b36237dcbe836.js",
+    "service-worker.js": "/lordsmobile/service-worker.js",
+    "static/css/2.885429ea.chunk.css.map": "/lordsmobile/static/css/2.885429ea.chunk.css.map",
+    "static/css/main.82cb4437.chunk.css.map": "/lordsmobile/static/css/main.82cb4437.chunk.css.map",
+    "static/media/bootstrap.min.css": "/lordsmobile/static/media/glyphicons-halflings-regular.fa277232.woff"
+  }
 }
