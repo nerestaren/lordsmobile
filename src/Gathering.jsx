@@ -126,6 +126,7 @@ export default class Gathering extends Component {
                 // gathering-tile-level -> gathering-tile-max-capacity -> gathering-capacity -> gathering-time
                 let maxCapacity = this.computeGatheringMaxCapacity(event.target.value, this.state['gathering-tile-level']);
                 let gatheringCapacity = maxCapacity;
+                console.log(`Using (max)-capacity ${maxCapacity}`);
                 this.setState({
                     'gathering-tile-type': event.target.value,
                     'gathering-capacity': gatheringCapacity,
@@ -143,6 +144,7 @@ export default class Gathering extends Component {
                 // gathering-tile-level -> gathering-tile-max-capacity -> gathering-capacity -> gathering-time
                 let maxCapacity = this.computeGatheringMaxCapacity(this.state['gathering-tile-type'], event.target.value);
                 let gatheringCapacity = maxCapacity;
+                console.log(`Using (max)-capacity ${maxCapacity}`);
                 this.setState({
                     'gathering-tile-level': event.target.value,
                     'gathering-capacity': gatheringCapacity,
@@ -283,13 +285,11 @@ export default class Gathering extends Component {
                             </Col>
                             <Col sm={10}>
                                 <InputGroup>
-                                    <FormControl type="text" value={this.state['gathering-capacity']}
+                                    <FormControl type="text" value={this.state['gathering-capacity']} min="0" max={this.state['gathering-tile-max-capacity']}
                                                  onChange={this.handleChange} onFocus={this.selectAll}
                                                  data-inputmask-alias="integer"
                                                  data-inputmask-autogroup="true"
                                                  data-inputmask-unmaskasnumber="true"
-                                                 data-inputmask-min="0"
-                                                 data-inputmask-max={this.state['gathering-tile-max-capacity']}
                                                  data-inputmask-placeholder="0"
                                                  data-inputmask-rightalign="false"/>
                                     <InputGroup.Addon> / {this.state['gathering-tile-max-capacity']}</InputGroup.Addon>
