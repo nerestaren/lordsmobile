@@ -4,20 +4,20 @@
   "homepage": "https://nerestaren.github.io/lordsmobile",
   "private": true,
   "dependencies": {
-    "bootstrap": "^3.3.7",
+    "bootstrap": "^3.4.1",
     "bootstrap-timepicker": "^0.5.2",
     "gh-pages": "^1.2.0",
-    "immutability-helper": "^2.7.1",
-    "inputmask": "^4.0.0",
-    "jquery": "^3.3.1",
+    "immutability-helper": "^2.9.1",
+    "inputmask": "^4.0.8",
+    "jquery": "^3.4.1",
     "js-priority-queue": "^0.1.5",
-    "react": "^16.3.2",
-    "react-bootstrap": "^0.32.1",
+    "react": "^16.8.6",
+    "react-bootstrap": "^0.32.4",
     "react-bootstrap-maskedinput": "^0.4.0",
-    "react-dom": "^16.3.2",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "^1.1.5"
+    "react-dom": "^16.8.6",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "^3.0.1"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -26,5 +26,17 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
