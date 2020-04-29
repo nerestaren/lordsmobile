@@ -9,7 +9,7 @@
     "gh-pages": "^1.2.0",
     "immutability-helper": "^2.9.1",
     "inputmask": "^4.0.8",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "js-priority-queue": "^0.1.5",
     "react": "^16.8.6",
     "react-bootstrap": "^0.32.4",
